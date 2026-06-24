@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-slate-50 text-ink font-sans antialiased;
+  }
+  ::selection {
+    @apply bg-brand-200 text-brand-900;
+  }
+  /* Slimmer, branded scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all
+           duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400
+           focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+  .btn-md {
+    @apply px-5 py-2.5 text-sm;
+  }
+  .btn-lg {
+    @apply px-7 py-3.5 text-base;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white shadow-soft hover:bg-brand-700 hover:-translate-y-0.5 active:translate-y-0;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-slate-700 ring-1 ring-slate-200 hover:ring-brand-300 hover:text-brand-700 hover:-translate-y-0.5;
+  }
+  .btn-ghost {
+    @apply btn text-slate-600 hover:bg-slate-100 hover:text-slate-900;
+  }
+  .btn-danger {
+    @apply btn bg-rose-50 text-rose-600 ring-1 ring-rose-200 hover:bg-rose-100;
+  }
+
+  /* Surfaces */
+  .card {
+    @apply rounded-2xl bg-white shadow-card ring-1 ring-slate-100;
+  }
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl ring-1 ring-white/60;
+  }
+
+  /* Inputs */
+  .input {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-ink
+           placeholder:text-slate-400 transition focus:border-brand-400 focus:outline-none
+           focus:ring-4 focus:ring-brand-100;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-semibold text-slate-700;
+  }
+
+  /* Misc */
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700;
+  }
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-600 via-violet-500 to-sunset-500 bg-clip-text text-transparent;
+  }
+  .section {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* Loading skeleton shimmer */
+.skeleton {
+  @apply relative overflow-hidden bg-slate-200/70 rounded-lg;
+}
+.skeleton::after {
+  content: '';
+  @apply absolute inset-0 -translate-x-full animate-shimmer;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+/* Print: itinerary should print cleanly */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
+  .print-full {
+    box-shadow: none !important;
+    border: none !important;
+  }
+  /* Safety net: never let an in-progress entrance animation hide content
+     in the printed/saved PDF. Overrides framer-motion's inline styles. */
+  *,
+  *::before,
+  *::after {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
